@@ -41,7 +41,7 @@ func (s *Server) InitializeDatabase() error {
 
 func (s *Server) initRoutes() {
 	// Inicializar repositórios e serviços
-	// userRepo := repositories.NewUserRepository(s.db.DB)
+	userRepo := repositories.NewUserRepository(s.db.DB)
 	// userService := services.NewUserService(userRepo)
 	// userHandler := handlers.NewUserHandler(userService)
 	
