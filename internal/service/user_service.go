@@ -16,6 +16,7 @@ type UserService interface {
 type userService struct {
 	repo repository.UserRepository
 }
+
 func NewUserService(repo repository.UserRepository) UserService {
 	return &userService{repo: repo}
 }
@@ -23,7 +24,7 @@ func NewUserService(repo repository.UserRepository) UserService {
 // CreateUser implements UserService.
 func (u *userService) CreateUser(req *models.CreateUserRequest) (*models.User, error) {
 	user := &models.User{
-		Name: req.Name,
+		Name:  req.Name,
 		Email: req.Email,
 	}
 	if err := u.repo.Create(user); err != nil {
@@ -66,11 +67,11 @@ func (u *userService) Update(id uint, req *models.UpdateUserRequest) (*models.Us
 	if err != nil {
 		return nil, err
 	}
-	if req.Name != "" {
-		user.Name = req.Name
+	if req.Name != nil {
+		user.Name = *req.Name
 	}
-	if req.Email != "" {
-		user.Email = req.Email
+	if req.Email != nil {
+		user.Email = *req.Email
 	}
 
 	if err := u.repo.Update(user); err != nil {
@@ -79,4 +80,3 @@ func (u *userService) Update(id uint, req *models.UpdateUserRequest) (*models.Us
 
 	return user, nil
 }
-

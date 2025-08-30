@@ -21,6 +21,6 @@ type CreateUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	Name  string `json:"name"`
-	Email string `json:"email" binding:"email"`
+	Name  *string `json:"name"`
+	Email *string `json:"email" binding:"omitempty,email"`
 }
