@@ -5,7 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/juanjerrah/go-project/internal/config"
+	"github.com/juanjerrah/go-project/internal/handler"
 	"github.com/juanjerrah/go-project/internal/models"
+	"github.com/juanjerrah/go-project/internal/repository"
+	"github.com/juanjerrah/go-project/internal/service"
 	"github.com/juanjerrah/go-project/pkg/database"
 )
 
@@ -41,20 +44,20 @@ func (s *Server) InitializeDatabase() error {
 
 func (s *Server) initRoutes() {
 	// Inicializar repositórios e serviços
-	userRepo := repositories.NewUserRepository(s.db.DB)
-	// userService := services.NewUserService(userRepo)
-	// userHandler := handlers.NewUserHandler(userService)
+	userRepo := repository.NewUserRepository(s.db.DB)
+	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
 	
 	// Rotas da API
 	api := s.router.Group("/api/v1")
 	{
 		users := api.Group("/users")
 		{
-			// users.POST("", userHandler.CreateUser)
-			// users.GET("", userHandler.GetAllUsers)
-			// users.GET("/:id", userHandler.GetUser)
-			// users.PUT("/:id", userHandler.UpdateUser)
-			// users.DELETE("/:id", userHandler.DeleteUser)
+			users.POST("", userHandler.CreateUser)
+			users.GET("", userHandler.GetAllUsers)
+			users.GET("/:id", userHandler.GetUser)
+			users.PUT("/:id", userHandler.UpdateUser)
+			users.DELETE("/:id", userHandler.DeleteUser)
 		}
 	}
 	
